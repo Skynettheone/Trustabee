@@ -3,111 +3,28 @@ import Card, { CardContent } from '../../components/common/Card';
 import Button from '../../components/common/Button';
 import Badge from '../../components/common/Badge';
 import { Star, Filter, Search, ChevronDown, CheckCircle, ShoppingCart, Heart } from 'lucide-react';
+import { useShop } from '../../context/ShopContext';
 
-// Mock data
-const honeyProducts = [
-  {
-    id: '1',
-    name: 'Wildflower Honey',
-    farm: 'Happy Bee Farm',
-    farmer: 'Kumara Perera',
-    price: 12.99,
-    quantity: 500,
-    unit: 'g',
-    rating: 4.8,
-    reviewCount: 124,
-    verified: true,
-    type: 'Wildflower',
-    region: 'Central Province',
-    organic: true,
-    image: 'https://images.pexels.com/photos/1638280/pexels-photo-1638280.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750',
-  },
-  {
-    id: '2',
-    name: 'Cinnamon Honey',
-    farm: 'Spice Garden Apiary',
-    farmer: 'Nimal Dissanayake',
-    price: 15.99,
-    quantity: 500,
-    unit: 'g',
-    rating: 4.9,
-    reviewCount: 87,
-    verified: true,
-    type: 'Cinnamon',
-    region: 'Western Province',
-    organic: true,
-    image: 'https://images.pexels.com/photos/1437558/pexels-photo-1437558.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750',
-  },
-  {
-    id: '3',
-    name: 'Forest Honey',
-    farm: 'Green Hills Farm',
-    farmer: 'Chaminda Silva',
-    price: 14.49,
-    quantity: 350,
-    unit: 'g',
-    rating: 4.7,
-    reviewCount: 56,
-    verified: true,
-    type: 'Forest',
-    region: 'Uva Province',
-    organic: false,
-    image: 'https://images.pexels.com/photos/1120588/pexels-photo-1120588.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750',
-  },
-  {
-    id: '4',
-    name: 'Coconut Flower Honey',
-    farm: 'Coastal Bee Haven',
-    farmer: 'Lalith Fernando',
-    price: 16.99,
-    quantity: 500,
-    unit: 'g',
-    rating: 4.9,
-    reviewCount: 102,
-    verified: true,
-    type: 'Coconut Flower',
-    region: 'Southern Province',
-    organic: true,
-    image: 'https://images.pexels.com/photos/9242841/pexels-photo-9242841.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750',
-  },
-  {
-    id: '5',
-    name: 'Mountain Honey',
-    farm: 'Highland Apiaries',
-    farmer: 'Rohini Perera',
-    price: 19.99,
-    quantity: 500,
-    unit: 'g',
-    rating: 4.8,
-    reviewCount: 73,
-    verified: true,
-    type: 'Mountain',
-    region: 'Central Province',
-    organic: true,
-    image: 'https://images.pexels.com/photos/127667/pexels-photo-127667.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750',
-  },
-  {
-    id: '6',
-    name: 'Raw Jackfruit Honey',
-    farm: 'Tropical Treasures',
-    farmer: 'Sunil Jayawardena',
-    price: 13.99,
-    quantity: 400,
-    unit: 'g',
-    rating: 4.6,
-    reviewCount: 41,
-    verified: true,
-    type: 'Jackfruit',
-    region: 'North Western Province',
-    organic: false,
-    image: 'https://images.pexels.com/photos/2612908/pexels-photo-2612908.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750',
-  },
-];
+type Filters = {
+  type: string[];
+  region: string[];
+  organic: boolean;
+  priceRange: [number, number];
+};
 
 const BrowseProducts: React.FC = () => {
+  const {
+    products,
+    addToCart,
+    addToFavorites,
+    removeFromFavorites,
+    isFavorite,
+    isInCart,
+  } = useShop();
+
   const [searchTerm, setSearchTerm] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [selectedFilters, setSelectedFilters] = useState({
+  const [selectedFilters, setSelectedFilters] = useState<Filters>({
     type: [],
     region: [],
     organic: false,
@@ -119,7 +36,7 @@ const BrowseProducts: React.FC = () => {
   };
 
   // Filter products based on search and filters
-  const filteredProducts = honeyProducts.filter(product => {
+  const filteredProducts = products.filter(product => {
     // Search term filter
     if (searchTerm && !product.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
         !product.farm.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -366,8 +283,12 @@ const BrowseProducts: React.FC = () => {
                   className="w-full h-56 object-cover rounded-t-lg"
                 />
                 <div className="absolute top-2 right-2 flex space-x-1">
-                  <button className="p-1.5 bg-white rounded-full shadow-sm hover:bg-gray-100">
-                    <Heart className="h-4 w-4 text-gray-500" />
+                  <button
+                    className={`p-1.5 bg-white rounded-full shadow-sm hover:bg-gray-100 ${isFavorite(product.id) ? 'text-amber-500' : 'text-gray-500'}`}
+                    onClick={() => isFavorite(product.id) ? removeFromFavorites(product.id) : addToFavorites(product)}
+                    aria-label={isFavorite(product.id) ? 'Remove from favorites' : 'Add to favorites'}
+                  >
+                    <Heart className="h-4 w-4" />
                   </button>
                 </div>
                 {product.verified && (
@@ -407,9 +328,14 @@ const BrowseProducts: React.FC = () => {
                     <span className="text-lg font-bold text-gray-900">£{product.price}</span>
                     <span className="text-sm text-gray-600 ml-1">/ {product.quantity}{product.unit}</span>
                   </div>
-                  <Button size="sm" className="flex items-center">
+                  <Button
+                    size="sm"
+                    className="flex items-center"
+                    onClick={() => addToCart(product)}
+                    disabled={isInCart(product.id)}
+                  >
                     <ShoppingCart className="mr-1 h-4 w-4" />
-                    Add
+                    {isInCart(product.id) ? 'Added' : 'Add'}
                   </Button>
                 </div>
               </CardContent>

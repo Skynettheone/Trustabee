@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center">
               <BeeIcon className="h-8 w-8 text-amber-600" />
-              <span className="ml-2 text-xl font-bold text-amber-600">HoneyVerify</span>
+              <span className="ml-2 text-xl font-bold text-amber-600">Trustabee</span>
             </div>
             <p className="mt-4 text-base text-gray-600">
               Connecting authentic Sri Lankan honey farmers with UK clients through verified honey products.
@@ -127,7 +127,7 @@ const Footer: React.FC = () => {
         {/* Bottom section */}
         <div className="mt-12 pt-8 border-t border-amber-200">
           <p className="text-center text-base text-gray-500">
-            &copy; {new Date().getFullYear()} HoneyVerify. All rights reserved.
+            &copy; {new Date().getFullYear()} Trustabee. All rights reserved.
           </p>
         </div>
       </div>

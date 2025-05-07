@@ -16,13 +16,14 @@ const Button: React.FC<ButtonProps> = ({
   children,
   className = '',
   disabled,
+  type = 'button',
   ...props
 }) => {
-  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
+  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer';
   
   const variantClasses = {
-    primary: 'bg-amber-500 hover:bg-amber-600 text-white focus:ring-amber-500',
-    secondary: 'bg-brown-800 hover:bg-brown-900 text-white focus:ring-brown-700',
+    primary: 'bg-amber-600 hover:bg-amber-700 text-white focus:ring-amber-500',
+    secondary: 'bg-gray-800 hover:bg-gray-900 text-white focus:ring-gray-700',
     accent: 'bg-purple-500 hover:bg-purple-600 text-white focus:ring-purple-500',
     outline: 'border border-amber-500 text-amber-500 hover:bg-amber-50 focus:ring-amber-500',
     ghost: 'text-amber-500 hover:bg-amber-50 focus:ring-amber-500',
@@ -39,6 +40,7 @@ const Button: React.FC<ButtonProps> = ({
   
   return (
     <button
+      type={type}
       className={`
         ${baseClasses} 
         ${variantClasses[variant]} 

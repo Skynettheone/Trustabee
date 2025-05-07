@@ -20,7 +20,7 @@ const Login: React.FC = () => {
     <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-b from-amber-50 to-white">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <BeeIcon className="h-12 w-12 text-amber-500" />
+          <img src="/logo/LOGO_LANDSCAPE.png" alt="Trustabee Logo" className="h-28 w-auto" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Sign in to your account
@@ -97,52 +97,6 @@ const Login: React.FC = () => {
               </Button>
             </div>
           </form>
-          
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">
-                  Or continue with demo accounts
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6 grid grid-cols-1 gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setEmail('farmer@example.com');
-                  setPassword('password');
-                }}
-                className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                Farmer Demo
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setEmail('client@example.com');
-                  setPassword('password');
-                }}
-                className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                Client Demo
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setEmail('admin@example.com');
-                  setPassword('password');
-                }}
-                className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                Admin Demo
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

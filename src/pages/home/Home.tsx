@@ -14,7 +14,7 @@ const Home: React.FC = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center" 
           style={{ 
-            backgroundImage: 'url(https://images.pexels.com/photos/162712/honey-honey-jar-beekeeper-sweet-162712.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750)',
+            backgroundImage: 'url(/images/honey-1296x728-header.webp)',
             backgroundPosition: 'center',
             opacity: 0.3,
           }}
@@ -30,6 +30,7 @@ const Home: React.FC = () => {
           <div className="mt-10 flex justify-center space-x-4">
             <Button 
               size="lg"
+              variant="primary"
               onClick={() => navigate('/register')}
             >
               Get Started
@@ -51,7 +52,7 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-              How HoneyVerify Works
+              How Trustabee Works
             </h2>
             <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
               Our unique verification process ensures authenticity at every step
@@ -106,7 +107,7 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-3xl font-extrabold text-gray-900">
-                Why Choose HoneyVerify?
+                Why Choose Trustabee?
               </h2>
               <p className="mt-4 text-lg text-gray-600">
                 Our platform offers unique benefits for both farmers and clients, creating a thriving ecosystem for authentic honey.
@@ -147,7 +148,7 @@ const Home: React.FC = () => {
                 <Button
                   onClick={() => navigate('/register')}
                 >
-                  Join HoneyVerify
+                  Join Trustabee
                 </Button>
               </div>
             </div>
@@ -155,24 +156,24 @@ const Home: React.FC = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-4">
                 <img 
-                  src="https://images.pexels.com/photos/6156607/pexels-photo-6156607.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750" 
+                  src="/images/honey1.webp" 
                   alt="Beekeeper with honeycomb" 
                   className="rounded-lg shadow-md object-cover h-64"
                 />
                 <img 
-                  src="https://images.pexels.com/photos/7262382/pexels-photo-7262382.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750" 
+                  src="/images/Honey-Cake-take-3_5.jpg" 
                   alt="Honey jar with dipper" 
                   className="rounded-lg shadow-md object-cover h-48"
                 />
               </div>
               <div className="flex flex-col gap-4">
                 <img 
-                  src="https://images.pexels.com/photos/6156637/pexels-photo-6156637.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750" 
+                  src="/images/honey-e396fd81cc2d4275bfaee2948d414fd8.jpg" 
                   alt="Honey production" 
                   className="rounded-lg shadow-md object-cover h-48"
                 />
                 <img 
-                  src="https://images.pexels.com/photos/7010512/pexels-photo-7010512.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750" 
+                  src="/images/Honey_Skin_Benefits_1.webp" 
                   alt="Healthy breakfast with honey" 
                   className="rounded-lg shadow-md object-cover h-64"
                 />
@@ -190,7 +191,7 @@ const Home: React.FC = () => {
               Which Role Are You?
             </h2>
             <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-              HoneyVerify is designed for three distinct user roles, each with tailored features
+              Trustabee is designed for three distinct user roles, each with tailored features
             </p>
           </div>
 
@@ -339,7 +340,7 @@ const Home: React.FC = () => {
                   </div>
                 </div>
                 <p className="text-gray-600">
-                  "HoneyVerify has transformed my honey business. The verification process gives my products credibility, and I'm now connected with clients from the UK who value authentic honey."
+                  "Trustabee has transformed my honey business. The verification process gives my products credibility, and I'm now connected with clients from the UK who value authentic honey."
                 </p>
                 <div className="mt-4 flex text-amber-500">
                   <Award className="h-5 w-5" />
@@ -363,7 +364,7 @@ const Home: React.FC = () => {
                   </div>
                 </div>
                 <p className="text-gray-600">
-                  "As someone who values authentic honey, HoneyVerify gives me confidence that I'm getting genuine products. I love being able to connect directly with farmers and learn about their beekeeping practices."
+                  "As someone who values authentic honey, Trustabee gives me confidence that I'm getting genuine products. I love being able to connect directly with farmers and learn about their beekeeping practices."
                 </p>
                 <div className="mt-4 flex text-amber-500">
                   <Award className="h-5 w-5" />
@@ -387,7 +388,7 @@ const Home: React.FC = () => {
                   </div>
                 </div>
                 <p className="text-gray-600">
-                  "The gamification aspect of HoneyVerify keeps me motivated to maintain high quality. Earning badges and seeing my rating improve has been rewarding, and it's helped attract more customers to my products."
+                  "The gamification aspect of Trustabee keeps me motivated to maintain high quality. Earning badges and seeing my rating improve has been rewarding, and it's helped attract more customers to my products."
                 </p>
                 <div className="mt-4 flex text-amber-500">
                   <Award className="h-5 w-5" />
@@ -406,7 +407,7 @@ const Home: React.FC = () => {
       <section className="py-16 bg-gradient-to-r from-amber-500 to-amber-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-            Ready to join the HoneyVerify community?
+            Ready to join the Trustabee community?
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-xl text-amber-100">
             Whether you're a honey farmer or a honey enthusiast, our platform has something for you.

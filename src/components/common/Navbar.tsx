@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { BeefIcon as BeeIcon, MenuIcon, X, ShoppingCart, Bell, LogOut } from 'lucide-react';
 import Button from './Button';
+import { useShop } from '../../context/ShopContext';
 
 const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
@@ -10,6 +11,8 @@ const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const { cart } = useShop();
+  const cartCount = cart.reduce((sum, item) => sum + item.cartQuantity, 0);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -52,10 +55,6 @@ const Navbar: React.FC = () => {
     switch (user.role) {
       case 'farmer':
         return [
-          { name: 'Dashboard', path: '/farmer/dashboard' },
-          { name: 'My Samples', path: '/farmer/samples' },
-          { name: 'My Products', path: '/farmer/products' },
-          { name: 'Orders', path: '/farmer/orders' },
         ];
       case 'client':
         return [
@@ -65,10 +64,6 @@ const Navbar: React.FC = () => {
         ];
       case 'admin':
         return [
-          { name: 'Dashboard', path: '/admin/dashboard' },
-          { name: 'Verifications', path: '/admin/verifications' },
-          { name: 'Users', path: '/admin/users' },
-          { name: 'Reports', path: '/admin/reports' },
         ];
       default:
         return [];
@@ -86,8 +81,7 @@ const Navbar: React.FC = () => {
                 onClick={() => handleNavigate('/')}
                 className="flex items-center text-amber-600 hover:text-amber-700"
               >
-                <BeeIcon className="h-8 w-8" />
-                <span className="ml-2 text-xl font-bold">HoneyVerify</span>
+                <img src="/logo/LOGO_LANDSCAPE.png" alt="Trustabee Logo" className="h-16 w-auto" />
               </button>
             </div>
             
@@ -116,9 +110,11 @@ const Navbar: React.FC = () => {
                     className="p-2 rounded-full text-gray-500 hover:text-gray-700 relative"
                   >
                     <ShoppingCart className="h-6 w-6" />
-                    <span className="absolute top-0 right-0 inline-flex items-center justify-center h-4 w-4 rounded-full bg-amber-500 text-white text-xs">
-                      3
-                    </span>
+                    {cartCount > 0 && (
+                      <span className="absolute top-0 right-0 inline-flex items-center justify-center h-4 w-4 rounded-full bg-amber-500 text-white text-xs">
+                        {cartCount}
+                      </span>
+                    )}
                   </button>
                 )}
                 

@@ -4,6 +4,7 @@ import Card, { CardHeader, CardContent } from '../../components/common/Card';
 import Badge from '../../components/common/Badge';
 import Button from '../../components/common/Button';
 import { BeefIcon as BeeIcon, LineChart, TrendingUp, AlertCircle, Package, Star, Award, CheckCircle2 } from 'lucide-react';
+import SampleSubmissionStepper, { SampleSubmission } from './SampleSubmissionStepper';
 
 // Mock data
 const sampleStatusData = {
@@ -30,6 +31,20 @@ const recentActivityData = [
 const FarmerDashboard: React.FC = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
+  const [showStepper, setShowStepper] = useState(false);
+  const [samples, setSamples] = useState<SampleSubmission[]>([]);
+
+  const handleSampleSubmit = (sample: SampleSubmission) => {
+    setSamples(prev => [
+      {
+        ...sample,
+        status: 'Waiting for Collection',
+        id: `SMP-${1000 + prev.length + 1}`,
+        submittedAt: new Date().toISOString().slice(0, 10),
+      },
+      ...prev
+    ]);
+  };
 
   if (!user || user.role !== 'farmer') {
     return <div>Loading...</div>;
@@ -53,7 +68,7 @@ const FarmerDashboard: React.FC = () => {
           </Button>
           <Button 
             className="flex items-center"
-            onClick={() => {/* Navigate to products */}}
+            onClick={() => setShowStepper(true)}
           >
             <Package className="mr-2 h-4 w-4" />
             Add Product
@@ -316,6 +331,7 @@ const FarmerDashboard: React.FC = () => {
             <Button 
               size="sm"
               className="flex items-center"
+              onClick={() => setShowStepper(true)}
             >
               <BeeIcon className="mr-2 h-4 w-4" />
               Submit New Sample
@@ -343,74 +359,33 @@ const FarmerDashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">HY-123</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">Wildflower Honey</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">2025-04-10</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <Badge variant="success">Verified</Badge>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <button className="text-amber-600 hover:text-amber-900 mr-2">View</button>
-                    <button className="text-green-600 hover:text-green-900">Create Listing</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">HY-124</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">Cinnamon Honey</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">2025-04-15</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <Badge variant="accent">In Verification</Badge>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <button className="text-amber-600 hover:text-amber-900 mr-2">View</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">HY-125</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">Forest Honey</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">2025-04-20</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <Badge variant="primary">Submitted</Badge>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <button className="text-amber-600 hover:text-amber-900 mr-2">View</button>
-                    <button className="text-red-600 hover:text-red-900">Cancel</button>
-                  </td>
-                </tr>
+                {samples.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="text-center py-8 text-gray-400">No samples submitted yet.</td>
+                  </tr>
+                ) : (
+                  samples.map((sample: any, idx) => (
+                    <tr key={sample.id || idx}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">{sample.id}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{sample.honeyType}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{sample.submittedAt}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <Badge variant="primary">{sample.status}</Badge>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <button className="text-amber-600 hover:text-amber-900 mr-2">View</button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
-          </div>
-          <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex justify-between items-center">
-            <div className="text-sm text-gray-500">
-              Showing 3 of 21 samples
-            </div>
-            <div className="flex space-x-2">
-              <button className="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                Previous
-              </button>
-              <button className="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                Next
-              </button>
-            </div>
           </div>
         </div>
       )}
@@ -444,6 +419,7 @@ const FarmerDashboard: React.FC = () => {
           </div>
         </div>
       )}
+      <SampleSubmissionStepper open={showStepper} onClose={() => setShowStepper(false)} onSubmit={handleSampleSubmit} />
     </div>
   );
 };
