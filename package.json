@@ -11,7 +11,13 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.0",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/mongodb": "^4.0.6",
+    "@types/node": "^22.15.16",
+    "aws-amplify": "^6.14.4",
+    "canvas-confetti": "^1.9.3",
     "lucide-react": "^0.344.0",
+    "mongodb": "^6.16.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.2.0",

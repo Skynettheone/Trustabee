@@ -2,7 +2,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'farmer' | 'client' | 'admin';
+  role: 'client' | 'farmer' | 'admin';
   createdAt: string;
 }
 
@@ -26,13 +26,8 @@ export interface ClientProfile extends User {
   profileImage?: string;
 }
 
-export interface AdminProfile extends User {
+export interface AdminProfile extends Omit<User, 'role'> {
   role: 'admin';
-  department: string;
-  verificationCount: number;
-  efficiency: number;
-  badges: Badge[];
-  profileImage?: string;
 }
 
 export interface Badge {

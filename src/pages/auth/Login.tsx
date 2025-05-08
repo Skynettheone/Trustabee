@@ -17,7 +17,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-b from-amber-50 to-white">
+    <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-b from-[#8fce90]/10 to-white">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <img src="/logo/LOGO_LANDSCAPE.png" alt="Trustabee Logo" className="h-28 w-auto" />
@@ -29,7 +29,7 @@ const Login: React.FC = () => {
           Or{' '}
           <button 
             onClick={() => navigate('/register')}
-            className="font-medium text-amber-600 hover:text-amber-500"
+            className="font-medium text-[#4c6737] hover:text-[#8fce90]"
           >
             create a new account
           </button>
@@ -73,7 +73,7 @@ const Login: React.FC = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-[#8fce90] focus:ring-[#8fce90] border-gray-300 rounded"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                   Remember me
@@ -81,7 +81,7 @@ const Login: React.FC = () => {
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-amber-600 hover:text-amber-500">
+                <a href="#" className="font-medium text-[#4c6737] hover:text-[#8fce90]">
                   Forgot your password?
                 </a>
               </div>
@@ -92,6 +92,7 @@ const Login: React.FC = () => {
                 type="submit" 
                 fullWidth 
                 loading={loading}
+                className="bg-[#4c6737] hover:bg-[#8fce90] text-white"
               >
                 Sign in
               </Button>

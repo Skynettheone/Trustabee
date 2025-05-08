@@ -2,9 +2,13 @@ import React from 'react';
 import Button from '../../components/common/Button';
 import { Minus, Plus, Trash2, ShoppingCart } from 'lucide-react';
 import { useShop } from '../../context/ShopContext';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Cart: React.FC = () => {
-  const { cart, removeFromCart, updateCartQuantity } = useShop();
+  const { cart, removeFromCart, updateCartQuantity, checkout } = useShop();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const handleQuantityChange = (id: string, quantity: number) => {
     if (quantity < 1) {
@@ -16,6 +20,15 @@ const Cart: React.FC = () => {
 
   const handleRemove = (id: string) => {
     removeFromCart(id);
+  };
+
+  const handleCheckout = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    checkout(user.id);
+    navigate('/client/orders');
   };
 
   const total = cart.reduce((sum, item) => sum + item.price * item.cartQuantity, 0);
@@ -71,7 +84,7 @@ const Cart: React.FC = () => {
             <div className="text-xl font-bold text-gray-900">
               Total: £{total.toFixed(2)}
             </div>
-            <Button>Proceed to Checkout</Button>
+            <Button onClick={handleCheckout}>Proceed to Checkout</Button>
           </div>
         </>
       )}

@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { BeefIcon as BeeIcon, MenuIcon, X, ShoppingCart, Bell, LogOut } from 'lucide-react';
 import Button from './Button';
 import { useShop } from '../../context/ShopContext';
+import type { User } from '../../types';
 
 const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
@@ -43,31 +44,29 @@ const Navbar: React.FC = () => {
   };
 
   // Different navigation items based on user role
-  const getNavigationItems = () => {
-    if (!user) {
-      return [
-        { name: 'Home', path: '/' },
-        { name: 'About', path: '/about' },
-        { name: 'Contact', path: '/contact' },
-      ];
+  const getNavigationItems = (user: User | null) => {
+    const items = [
+    ];
+
+    if (user) {
+      switch (user.role) {
+        case 'farmer':
+          items.push({ name: 'Dashboard', path: '/farmer/dashboard' });
+          break;
+        case 'client':
+          items.push(
+            { name: 'Browse', path: '/client/browse' },
+            { name: 'Orders', path: '/client/orders' },
+            { name: 'Favorites', path: '/client/favorites' },
+          );
+          break;
+        case 'admin':
+          items.push({ name: 'Verification', path: '/admin/verification' });
+          break;
+      }
     }
 
-    switch (user.role) {
-      case 'farmer':
-        return [
-        ];
-      case 'client':
-        return [
-          { name: 'Browse Honey', path: '/client/browse' },
-          { name: 'My Orders', path: '/client/orders' },
-          { name: 'Favorites', path: '/client/favorites' },
-        ];
-      case 'admin':
-        return [
-        ];
-      default:
-        return [];
-    }
+    return items;
   };
 
   return (
@@ -87,7 +86,7 @@ const Navbar: React.FC = () => {
             
             {/* Desktop navigation */}
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              {getNavigationItems().map((item) => (
+              {getNavigationItems(user).map((item) => (
                 <button
                   key={item.path}
                   onClick={() => handleNavigate(item.path)}
@@ -241,7 +240,7 @@ const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div className="sm:hidden">
           <div className="pt-2 pb-3 space-y-1">
-            {getNavigationItems().map((item) => (
+            {getNavigationItems(user).map((item) => (
               <button
                 key={item.path}
                 onClick={() => handleNavigate(item.path)}

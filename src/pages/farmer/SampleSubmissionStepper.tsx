@@ -3,6 +3,8 @@ import { Modal } from '../../components/common/Modal';
 import Button from '../../components/common/Button';
 import Badge from '../../components/common/Badge';
 import { Camera, Mic, ChevronRight, ChevronLeft } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { useShop } from '../../context/ShopContext';
 
 const honeyTypes = [
   { value: 'wildflower', label: 'Wildflower', icon: '🍯' },
@@ -25,9 +27,10 @@ export type SampleSubmission = {
   address: string;
   collectionDate: string;
   contactPref: string;
+  farmerId: string;
 };
 
-const initialForm: SampleSubmission = {
+const initialForm: Omit<SampleSubmission, 'farmerId'> = {
   honeyType: '',
   harvestDate: '',
   quantity: '',
@@ -40,10 +43,12 @@ const initialForm: SampleSubmission = {
 const SampleSubmissionStepper: React.FC<{
   open: boolean;
   onClose: () => void;
-  onSubmit: (sample: SampleSubmission) => void;
+  onSubmit: (sample: Omit<SampleSubmission, 'id' | 'status' | 'submittedAt'>) => void;
 }> = ({ open, onClose, onSubmit }) => {
+  const { user } = useAuth();
+  const { submitSample } = useShop();
   const [step, setStep] = useState(0);
-  const [form, setForm] = useState<SampleSubmission>(initialForm);
+  const [form, setForm] = useState<Omit<SampleSubmission, 'farmerId'>>(initialForm);
   const [badge, setBadge] = useState<string | null>(null);
 
   useEffect(() => {
@@ -56,10 +61,16 @@ const SampleSubmissionStepper: React.FC<{
 
   const next = () => setStep((s) => Math.min(s + 1, steps.length - 1));
   const prev = () => setStep((s) => Math.max(s - 1, 0));
+  
   const handleFinish = () => {
+    if (!user) return;
+    
     setBadge('Collection Scheduled! 📅');
     setTimeout(() => {
-      onSubmit(form);
+      submitSample({
+        ...form,
+        farmerId: user.id,
+      });
       onClose();
     }, 800);
   };

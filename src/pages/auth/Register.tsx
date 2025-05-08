@@ -8,23 +8,35 @@ import Button from '../../components/common/Button';
 const Register: React.FC = () => {
   const { register, loading, error } = useAuth();
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    role: 'client' as 'client' | 'farmer',
+  });
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState<'farmer' | 'client'>('client');
   const [passwordError, setPasswordError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (password !== confirmPassword) {
+    if (formData.password !== confirmPassword) {
       setPasswordError('Passwords do not match');
       return;
     }
     
     setPasswordError('');
-    await register(name, email, password, role);
+    try {
+      await register(formData.name, formData.email, formData.password, formData.role);
+      // Redirect based on role
+      if (formData.role === 'farmer') {
+        navigate('/farmer/export-journey');
+      } else {
+        navigate('/client/browse');
+      }
+    } catch (err) {
+      // Error is handled by the auth context
+    }
   };
 
   return (
@@ -60,8 +72,8 @@ const Register: React.FC = () => {
               id="name"
               label="Full name"
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
               autoComplete="name"
               fullWidth
@@ -71,8 +83,8 @@ const Register: React.FC = () => {
               id="email"
               label="Email address"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
               autoComplete="email"
               fullWidth
@@ -82,8 +94,8 @@ const Register: React.FC = () => {
               id="password"
               label="Password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               required
               autoComplete="new-password"
               fullWidth
@@ -108,7 +120,7 @@ const Register: React.FC = () => {
                 <div>
                   <label className={`
                     relative flex items-center justify-center px-4 py-3 border rounded-md shadow-sm 
-                    ${role === 'client' 
+                    ${formData.role === 'client' 
                       ? 'border-amber-500 bg-amber-50' 
                       : 'border-gray-300 bg-white hover:bg-gray-50'
                     }
@@ -118,8 +130,8 @@ const Register: React.FC = () => {
                       type="radio"
                       name="role"
                       value="client"
-                      checked={role === 'client'}
-                      onChange={() => setRole('client')}
+                      checked={formData.role === 'client'}
+                      onChange={() => setFormData({ ...formData, role: 'client' })}
                       className="sr-only"
                     />
                     <span className="text-sm font-medium">UK Client</span>
@@ -128,7 +140,7 @@ const Register: React.FC = () => {
                 <div>
                   <label className={`
                     relative flex items-center justify-center px-4 py-3 border rounded-md shadow-sm 
-                    ${role === 'farmer' 
+                    ${formData.role === 'farmer' 
                       ? 'border-amber-500 bg-amber-50' 
                       : 'border-gray-300 bg-white hover:bg-gray-50'
                     }
@@ -138,8 +150,8 @@ const Register: React.FC = () => {
                       type="radio"
                       name="role"
                       value="farmer"
-                      checked={role === 'farmer'}
-                      onChange={() => setRole('farmer')}
+                      checked={formData.role === 'farmer'}
+                      onChange={() => setFormData({ ...formData, role: 'farmer' })}
                       className="sr-only"
                     />
                     <span className="text-sm font-medium">Honey Farmer</span>
