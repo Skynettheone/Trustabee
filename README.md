@@ -29,5 +29,3 @@ A modern, scalable web application built with Vite, React, and TypeScript.
 - Tailwind CSS
 
 ---
-
-MIT License 
