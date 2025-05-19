@@ -27,5 +27,3 @@ A modern, scalable web application built with Vite, React, and TypeScript.
 - TypeScript
 - Redux Toolkit
 - Tailwind CSS
-
----
